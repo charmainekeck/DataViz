@@ -1,4 +1,7 @@
+import java.util.*;
 import controlP5.*;
+
+HashMap<Integer, Patient> patients;
 
 ControlP5 cp;
 float controlX, controlY;
@@ -9,11 +12,33 @@ void setup() {
   size(displayWidth, displayHeight - 150);
   background(240);
 
+  loadPatients();
   createControls();
 }
 
 void draw() {
   updateWeightSlider();
+}
+
+void loadPatients() {
+  patients = new HashMap<Integer, Patient>();
+
+  String[] lines = loadStrings("Aim1Data.csv");
+  String[] headers = lines[0].split(",");
+  for (int i = 1; i < lines.length; i++)
+  {
+    String[] line = lines[i].split(",");
+
+    int subjectID = Integer.parseInt(line[0]);
+    Patient p = patients.get(subjectID);
+    if(p == null)
+    {
+      p = new Patient(headers);
+      patients.put(subjectID, p);
+    }
+
+    p.addDataRow(line);
+  }
 }
 
 void createControls() {
