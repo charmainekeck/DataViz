@@ -2,9 +2,11 @@ import java.util.*;
 import controlP5.*;
 
 HashMap<Integer, Patient> patients;
+ArrayList<VentilationRateGraph> graphsDrawn;
 
 ControlP5 cp;
 float controlX, controlY;
+int wX, wY, wWidth, wHeight;
 Textlabel minRangeLabel, maxRangeLabel;
 PVector minSlider, maxSlider;
 
@@ -14,10 +16,17 @@ void setup() {
 
   loadPatients();
   createControls();
+
+  createGraphWidget();
+  graphsDrawn = new ArrayList<VentilationRateGraph>();
+  updateGraphsDrawn();
 }
 
 void draw() {
   updateWeightSlider();
+
+  for (VentilationRateGraph graph : graphsDrawn)
+    graph.display();
 }
 
 void loadPatients() {
@@ -41,6 +50,14 @@ void loadPatients() {
   }
 }
 
+void createGraphWidget()
+{
+  wX = 300;
+  wY = 50;
+  wHeight = height - (2*wY);
+  wWidth = width - wX - wY;
+  rect(wX,wY,wWidth,wHeight);
+}
 void createControls() {
   // FIXME: ranges should be created dynamically from data
   float minRange = 2;
@@ -216,6 +233,30 @@ void updateWeightSlider()
   noFill();
 }
 
+void  updateGraphsDrawn()
+{
+  ArrayList<Patient> filteredPatients = new ArrayList<Patient>(patients.values());
+
+  /* FIXME */
+  // test with only one patient
+  // Patient theDude = filteredPatients.get(34);
+  // filteredPatients.clear();
+  // filteredPatients.add(theDude);
+
+  graphsDrawn.clear();
+
+  double r = Math.ceil(Math.sqrt(filteredPatients.size()));
+  float boxWidth = (float)(wWidth / r);
+  float boxHeight = boxWidth / wWidth * wHeight;
+  for (int i = 0; i < filteredPatients.size(); i++)
+  {
+    float boxX = (float)(wX + wWidth * (i%r) / r);
+    float boxY = (float)(wY + wHeight * (int)(i/r) / r);
+
+    graphsDrawn.add(new VentilationRateGraph(boxX, boxY, boxWidth, boxHeight, filteredPatients.get(i)));
+  }
+}
+
 public void mouseDragged()
 {
   // FIXME: ranges should be created dynamically from data
@@ -288,6 +329,56 @@ public void mouseDragged()
       percent = ((pmouseX - minX)/ (maxX - minX));
       maxRange = (2 + (percent * diff));
       maxRangeLabel.setText(""+String.format("%.2f", maxRange));
+    }
+  }
+}
+
+class VentilationRateGraph {
+  private final static int MAXVENTRATE = 50;
+
+  Patient patient;
+  float x, y, wWidth, wHeight;
+  private float dotRadius;
+
+  VentilationRateGraph(float x, float y, float wWidth, float wHeight, Patient patient) {
+    this.patient = patient;
+    this.x = x;
+    this.y = y;
+    this.wWidth = wWidth;
+    this.wHeight = wHeight;
+
+    this.dotRadius = max(wWidth, wHeight) / 50;
+  }
+
+  void display() {
+    // fill(color(random(255), random(255), random(255)));
+    // rect(x,y,wWidth,wHeight);
+    stroke(150);
+    strokeWeight(1);
+    fill(100);
+    rect(x, y, wWidth, wHeight);
+
+    long maxTime = patient.getMaxTime();
+    if (maxTime <= 0)
+      return;
+
+    PVector prev = null;
+    for (Reading r : patient.getReadings()) {
+      float timePercent = (float)r.getTime() / maxTime;
+      float ventRatePercent = max((float)r.getVentilatorRate() / MAXVENTRATE, 0.0);
+      float ventX = x + timePercent * wWidth;
+      float ventY = (y + height) - ventRatePercent * wHeight;
+
+      println("time: " + timePercent + " - " + ventX + " ventRate: " + ventRatePercent + " - " + ventY);
+      fill(150);
+      ellipse(ventX, ventY, dotRadius, dotRadius);
+
+      if (prev != null) {
+        line(prev.x, prev.y, ventX, ventY);
+        prev.set(ventX, ventY);
+      } else {
+        prev = new PVector(ventX, ventY);
+      }
     }
   }
 }

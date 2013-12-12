@@ -86,12 +86,18 @@ public class Patient
 
   public long getMaxTime()
   {
+    if (readings.size() == 0)
+      return 0L;
+
     Collections.sort(readings, new EllapsedTimeComparator());
     return readings.get(readings.size() - 1).getTime();
   }
 
   public long getStartTime()
   {
+    if (readings.size() == 0)
+      return 0L;
+
     Collections.sort(readings, new EllapsedTimeComparator());
     return readings.get(0).getTime();
   }
