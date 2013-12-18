@@ -161,16 +161,16 @@ public void setUPButtons() {
   cp.addButton("PIP")
     .setPosition(controlX +20, controlY +112)
     .setSize(20,20)
-    .setColorForeground(color(180, 180, 180))
-    .setColorBackground(color(180, 180, 180))
+    .setColorForeground(color(180, 101, 204))
+    .setColorBackground(color(180, 101, 204))
     .getCaptionLabel()
     .hide();
 
   cp.addButton("pH")
     .setPosition(controlX +20, controlY +145)
     .setSize(20,20)
-    .setColorForeground(color(180, 180, 180))
-    .setColorBackground(color(180, 180, 180))
+    .setColorForeground(color(252, 163, 38))
+    .setColorBackground(color(252, 163, 38))
     .getCaptionLabel()
     .hide();
 }
@@ -444,8 +444,8 @@ class VentilationRateGraph {
       float pipPercent = max((float)r.getPip() / MAXPIP, 0.0);
       float pipX = x + timePercent * wWidth;
       float pipY = (y + wHeight) - pipPercent * wHeight;
-
-      fill(color(255,255,255));
+      noStroke();
+      fill(color(180,101,204));
       ellipse(pipX, pipY, dotRadius, dotRadius);
     }
   }
@@ -460,8 +460,8 @@ class VentilationRateGraph {
       float phPercent = max((float)r.getpH() / MAXPH, 0.0);
       float phX = x + timePercent * wWidth;
       float phY = (y + wHeight) - phPercent * wHeight;
-
-      fill(color(255,0,0));
+      noStroke();
+      fill(color(252,163,38));
       ellipse(phX, phY, dotRadius, dotRadius);
     }
   }
