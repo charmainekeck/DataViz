@@ -389,6 +389,8 @@ private ArrayList<Patient> filteredPatients()
       filteredPatients.remove(p);
     else if (!gON && site.toLowerCase().equals("g"))
       filteredPatients.remove(p);
+    else if (!hON && site.toLowerCase().equals("h"))
+      filteredPatients.remove(p);
     else if (!pcON && vent.toLowerCase().equals("pressure control"))
       filteredPatients.remove(p);
     else if (!vcON && vent.toLowerCase().equals("volume control"))
