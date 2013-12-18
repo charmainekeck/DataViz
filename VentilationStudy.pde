@@ -345,7 +345,6 @@ public void mouseDragged()
 
 private ArrayList<Patient> filteredPatients()
 {
-  println("filtering patients");
   ArrayList<Patient> filteredPatients = new ArrayList<Patient>(patients.values());
 
   for (Patient p : patients.values())

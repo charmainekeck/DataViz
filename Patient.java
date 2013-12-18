@@ -109,6 +109,20 @@ public class Patient
     return 0f;
   }
 
+  public String getSite()
+  {
+    if (readings.size() > 0)
+      return readings.get(0).getSite();
+    return null;
+  }
+
+    public String getVentMode()
+  {
+    if (readings.size() > 0)
+      return readings.get(0).getVentMode();
+    return null;
+  }
+
   public String toString()
   {
     String pString = "Patient- " + readings.size()  + " readings, ";
