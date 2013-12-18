@@ -141,16 +141,16 @@ public void setUPButtons() {
   cp.addButton("PEEP")
     .setPosition(controlX +20, controlY +12)
     .setSize(20,20)
-    .setColorForeground(color(180, 180, 180))
-    .setColorBackground(color(180, 180, 180))
+    .setColorForeground(color(38, 127, 252))
+    .setColorBackground(color(38, 127, 252))
     .getCaptionLabel()
     .hide();
 
   cp.addButton("FiO2")
     .setPosition(controlX +20, controlY +45)
     .setSize(20,20)
-    .setColorForeground(color(180, 180, 180))
-    .setColorBackground(color(180, 180, 180))
+    .setColorForeground(color(4, 214, 8))
+    .setColorBackground(color(4, 214, 8))
     .getCaptionLabel()
     .hide();
 
@@ -359,9 +359,9 @@ class VentilationRateGraph {
   }
 
   void display() {
-    stroke(150);
+    stroke(100);
     strokeWeight(1);
-    fill(100);
+    fill(255);
     rect(x, y, wWidth, wHeight);
 
     long maxTime = patient.getMaxTime();
@@ -402,8 +402,8 @@ class VentilationRateGraph {
       float peepPercent = max((float)r.getPeep() / MAXPEEP, 0.0);
       float peepX = x + timePercent * wWidth;
       float peepY = (y + wHeight) - peepPercent * wHeight;
-
-      fill(color(0,0,255));
+      noStroke();
+      fill(color(38,127,252));
       ellipse(peepX, peepY, dotRadius, dotRadius);
     }
   }
@@ -418,8 +418,8 @@ class VentilationRateGraph {
       float fio2Percent = max(r.getFiO2() / MAXFIO2, 0.0);
       float fio2X = x + timePercent * wWidth;
       float fio2Y = (y + wHeight) - fio2Percent * wHeight;
-
-      fill(color(0,255,0));
+      noStroke();
+      fill(color(4,214,8));
       ellipse(fio2X, fio2Y, dotRadius, dotRadius);
     }
   }
