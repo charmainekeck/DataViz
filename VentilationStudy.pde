@@ -242,13 +242,6 @@ void updateWeightSlider()
 void  updateGraphsDrawn()
 {
   ArrayList<Patient> filteredPatients = filteredPatients();
-
-  /* FIXME */
-  // test with only one patient
-  // Patient theDude = filteredPatients.get(34);
-  // filteredPatients.clear();
-  // filteredPatients.add(theDude);
-
   graphsDrawn.clear();
 
   double r = Math.ceil(Math.sqrt(filteredPatients.size()));
