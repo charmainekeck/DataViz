@@ -369,7 +369,7 @@ private ArrayList<Patient> filteredPatients()
   for (Patient p : patients.values())
   {
     String site = p.getSite();
-    
+
     String vent = p.getVentMode();
     if (p.getWeight() < Float.parseFloat(minRangeLabel.get().getText()))
       filteredPatients.remove(p);
@@ -397,7 +397,7 @@ private ArrayList<Patient> filteredPatients()
       filteredPatients.remove(p);
     else if (!hfovON && vent.toLowerCase().equals("hfov"))
       filteredPatients.remove(p);
-    
+
 
   }
 
@@ -438,7 +438,10 @@ class VentilationRateGraph {
     PVector prev = null;
     for (Reading r : patient.getReadings()) {
       float timePercent = (float)r.getTime() / maxTime;
-      float ventRatePercent = max((float)r.getVentilatorRate() / MAXVENTRATE, 0.0);
+      float ventRatePercent = (float)r.getVentilatorRate() / MAXVENTRATE;
+      if (ventRatePercent <= 0.0)
+        continue;
+
       float ventX = x + timePercent * wWidth;
       float ventY = (y + wHeight) - ventRatePercent * wHeight;
 
@@ -470,7 +473,10 @@ class VentilationRateGraph {
 
     for (Reading r : patient.getReadings()) {
       float timePercent = (float)r.getTime() / maxTime;
-      float peepPercent = max((float)r.getPeep() / MAXPEEP, 0.0);
+      float peepPercent = (float)r.getPeep() / MAXPEEP;
+      if (peepPercent <= 0.0)
+        continue;
+
       float peepX = x + timePercent * wWidth;
       float peepY = (y + wHeight) - peepPercent * wHeight;
       noStroke();
@@ -486,7 +492,10 @@ class VentilationRateGraph {
 
     for (Reading r : patient.getReadings()) {
       float timePercent = (float)r.getTime() / maxTime;
-      float fio2Percent = max(r.getFiO2() / MAXFIO2, 0.0);
+      float fio2Percent = r.getFiO2() / MAXFIO2;
+      if (fio2Percent <= 0.0)
+        continue;
+
       float fio2X = x + timePercent * wWidth;
       float fio2Y = (y + wHeight) - fio2Percent * wHeight;
       noStroke();
@@ -502,7 +511,10 @@ class VentilationRateGraph {
 
     for (Reading r : patient.getReadings()) {
       float timePercent = (float)r.getTime() / maxTime;
-      float pipPercent = max((float)r.getPip() / MAXPIP, 0.0);
+      float pipPercent = (float)r.getPip() / MAXPIP;
+      if (pipPercent <= 0.0)
+        continue;
+
       float pipX = x + timePercent * wWidth;
       float pipY = (y + wHeight) - pipPercent * wHeight;
       noStroke();
@@ -518,7 +530,10 @@ class VentilationRateGraph {
 
     for (Reading r : patient.getReadings()) {
       float timePercent = (float)r.getTime() / maxTime;
-      float phPercent = max((float)r.getpH() / MAXPH, 0.0);
+      float phPercent = (float)r.getpH() / MAXPH;
+      if (phPercent <= 0.0)
+        continue;
+
       float phX = x + timePercent * wWidth;
       float phY = (y + wHeight) - phPercent * wHeight;
       noStroke();
