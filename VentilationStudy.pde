@@ -10,6 +10,10 @@ int wX, wY, wWidth, wHeight;
 Textlabel minRangeLabel, maxRangeLabel;
 PVector minSlider, maxSlider;
 
+// Toggles
+boolean peepON;
+boolean fio2ON;
+
 void setup() {
   size(displayWidth, displayHeight - 150);
   background(240);
@@ -120,6 +124,7 @@ void createControls() {
 }
 
 public void PEEP() {
+  peepON = !peepON;
 }
 
 public void PIP() {
@@ -129,6 +134,7 @@ public void pH() {
 }
 
 public void FiO2() {
+  fio2ON = !fio2ON;
 }
 
 public void setUPButtons() {
@@ -335,6 +341,8 @@ public void mouseDragged()
 
 class VentilationRateGraph {
   private final static int MAXVENTRATE = 50;
+  private final static int MAXPEEP = 22;
+  private final static float MAXFIO2 = 1.0;
 
   Patient patient;
   float x, y, wWidth, wHeight;
@@ -379,5 +387,43 @@ class VentilationRateGraph {
         prev = new PVector(ventX, ventY);
       }
     }
+
+    if (peepON)
+      displayPEEP();
+    if (fio2ON)
+      displayFiO2();
   }
+
+  private void displayPEEP() {
+    long maxTime = patient.getMaxTime();
+    if (maxTime <= 0)
+      return;
+
+    for (Reading r : patient.getReadings()) {
+      float timePercent = (float)r.getTime() / maxTime;
+      float peepPercent = max((float)r.getPeep() / MAXPEEP, 0.0);
+      float peepX = x + timePercent * wWidth;
+      float peepY = (y + wHeight) - peepPercent * wHeight;
+
+      fill(color(0,0,255));
+      ellipse(peepX, peepY, dotRadius, dotRadius);
+    }
+  }
+
+  private void displayFiO2() {
+    long maxTime = patient.getMaxTime();
+    if (maxTime <= 0)
+      return;
+
+    for (Reading r : patient.getReadings()) {
+      float timePercent = (float)r.getTime() / maxTime;
+      float fio2Percent = max(r.getFiO2() / MAXFIO2, 0.0);
+      float fio2X = x + timePercent * wWidth;
+      float fio2Y = (y + wHeight) - fio2Percent * wHeight;
+
+      fill(color(0,255,0));
+      ellipse(fio2X, fio2Y, dotRadius, dotRadius);
+    }
+  }
+
 }
