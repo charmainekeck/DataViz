@@ -367,7 +367,7 @@ class VentilationRateGraph {
       float timePercent = (float)r.getTime() / maxTime;
       float ventRatePercent = max((float)r.getVentilatorRate() / MAXVENTRATE, 0.0);
       float ventX = x + timePercent * wWidth;
-      float ventY = (y + height) - ventRatePercent * wHeight;
+      float ventY = (y + wHeight) - ventRatePercent * wHeight;
 
       println("time: " + timePercent + " - " + ventX + " ventRate: " + ventRatePercent + " - " + ventY);
       fill(150);
