@@ -366,8 +366,6 @@ class VentilationRateGraph {
   }
 
   void display() {
-    // fill(color(random(255), random(255), random(255)));
-    // rect(x,y,wWidth,wHeight);
     stroke(150);
     strokeWeight(1);
     fill(100);
