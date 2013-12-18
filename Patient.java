@@ -102,6 +102,18 @@ public class Patient
     return readings.get(0).getTime();
   }
 
+  public String toString()
+  {
+    String pString = "Patient- " + readings.size()  + " readings, ";
+    pString += "startTime: " + getStartTime() + ", maxTime: " + getMaxTime() + "\n[";
+    for (Reading r : readings) {
+      pString += r.toString();
+      pString += ",\n";
+    }
+
+    return pString;
+  }
+
   private long getElapsedTime(int day, String time)
   {
     long elapsed = 0L;
@@ -144,7 +156,7 @@ public class Patient
 
   private class EllapsedTimeComparator implements Comparator<Reading> {
       public int compare(Reading r1, Reading r2) {
-          return (int)(r2.getTime() - r1.getTime());
+          return (int)(r1.getTime() - r2.getTime());
       }
   }
 }
