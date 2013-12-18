@@ -30,6 +30,7 @@ void setup() {
 
 void draw() {
   updateWeightSlider();
+  updateGraphsDrawn();
 
   for (VentilationRateGraph graph : graphsDrawn)
     graph.display();
@@ -338,7 +339,16 @@ public void mouseDragged()
 
 private ArrayList<Patient> filteredPatients()
 {
+  println("filtering patients");
   ArrayList<Patient> filteredPatients = new ArrayList<Patient>(patients.values());
+
+  for (Patient p : patients.values())
+  {
+    if (p.getWeight() < Float.parseFloat(minRangeLabel.get().getText()))
+      filteredPatients.remove(p);
+    else if (p.getWeight() > Float.parseFloat(maxRangeLabel.get().getText()))
+      filteredPatients.remove(p);
+  }
 
   return filteredPatients;
 }

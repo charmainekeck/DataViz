@@ -102,6 +102,13 @@ public class Patient
     return readings.get(0).getTime();
   }
 
+  public float getWeight()
+  {
+    if (readings.size() > 0)
+      return readings.get(0).getWeight();
+    return 0f;
+  }
+
   public String toString()
   {
     String pString = "Patient- " + readings.size()  + " readings, ";
