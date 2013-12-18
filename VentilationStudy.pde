@@ -241,7 +241,7 @@ void updateWeightSlider()
 
 void  updateGraphsDrawn()
 {
-  ArrayList<Patient> filteredPatients = new ArrayList<Patient>(patients.values());
+  ArrayList<Patient> filteredPatients = filteredPatients();
 
   /* FIXME */
   // test with only one patient
@@ -337,6 +337,13 @@ public void mouseDragged()
       maxRangeLabel.setText(""+String.format("%.2f", maxRange));
     }
   }
+}
+
+private ArrayList<Patient> filteredPatients()
+{
+  ArrayList<Patient> filteredPatients = new ArrayList<Patient>(patients.values());
+
+  return filteredPatients;
 }
 
 class VentilationRateGraph {
