@@ -13,6 +13,8 @@ PVector minSlider, maxSlider;
 // Toggles
 boolean peepON;
 boolean fio2ON;
+boolean pipON;
+boolean phON;
 
 void setup() {
   size(displayWidth, displayHeight - 150);
@@ -128,9 +130,11 @@ public void PEEP() {
 }
 
 public void PIP() {
+  pipON = !pipON;
 }
 
 public void pH() {
+  phON = !phON;
 }
 
 public void FiO2() {
@@ -343,6 +347,8 @@ class VentilationRateGraph {
   private final static int MAXVENTRATE = 50;
   private final static int MAXPEEP = 22;
   private final static float MAXFIO2 = 1.0;
+  private final static int MAXPIP = 50;
+  private final static int MAXPH = 14;
 
   Patient patient;
   float x, y, wWidth, wHeight;
@@ -390,6 +396,10 @@ class VentilationRateGraph {
       displayPEEP();
     if (fio2ON)
       displayFiO2();
+    if (pipON)
+      displayPIP();
+    if (phON)
+      displayPh();
   }
 
   private void displayPEEP() {
@@ -421,6 +431,38 @@ class VentilationRateGraph {
       noStroke();
       fill(color(4,214,8));
       ellipse(fio2X, fio2Y, dotRadius, dotRadius);
+    }
+  }
+
+  private void displayPIP() {
+    long maxTime = patient.getMaxTime();
+    if (maxTime <= 0)
+      return;
+
+    for (Reading r : patient.getReadings()) {
+      float timePercent = (float)r.getTime() / maxTime;
+      float pipPercent = max((float)r.getPip() / MAXPIP, 0.0);
+      float pipX = x + timePercent * wWidth;
+      float pipY = (y + wHeight) - pipPercent * wHeight;
+
+      fill(color(255,255,255));
+      ellipse(pipX, pipY, dotRadius, dotRadius);
+    }
+  }
+
+  private void displayPh() {
+    long maxTime = patient.getMaxTime();
+    if (maxTime <= 0)
+      return;
+
+    for (Reading r : patient.getReadings()) {
+      float timePercent = (float)r.getTime() / maxTime;
+      float phPercent = max((float)r.getpH() / MAXPH, 0.0);
+      float phX = x + timePercent * wWidth;
+      float phY = (y + wHeight) - phPercent * wHeight;
+
+      fill(color(255,0,0));
+      ellipse(phX, phY, dotRadius, dotRadius);
     }
   }
 
