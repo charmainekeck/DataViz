@@ -51,7 +51,7 @@ void draw() {
   // Clear graph widget by painting over it
   noStroke();
   fill(240);
-  rect(wX-5,wY-5,wWidth+10,wHeight+10);
+  rect(wX-5,wY-5,wWidth+10,wHeight+20);
 
   updateWeightSlider();
   updateGraphsDrawn();
