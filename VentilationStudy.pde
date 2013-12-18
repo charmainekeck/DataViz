@@ -369,7 +369,6 @@ class VentilationRateGraph {
       float ventX = x + timePercent * wWidth;
       float ventY = (y + wHeight) - ventRatePercent * wHeight;
 
-      println("time: " + timePercent + " - " + ventX + " ventRate: " + ventRatePercent + " - " + ventY);
       fill(150);
       ellipse(ventX, ventY, dotRadius, dotRadius);
 
