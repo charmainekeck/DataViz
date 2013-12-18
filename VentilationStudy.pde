@@ -16,7 +16,26 @@ boolean fio2ON;
 boolean pipON;
 boolean phON;
 
+boolean aON, bON, cON, dON, eON, fON, gON, hON, pcON, vcON, prvcON, hfovON;
+
+
+
+
 void setup() {
+  pcON = true;
+  vcON = true;
+  prvcON = true;
+  hfovON = true;
+
+  aON = true;
+  bON = true;
+  cON = true;
+  dON = true;
+  eON = true;
+  fON = true;
+  gON = true;
+  hON = true;
+
   size(displayWidth, displayHeight - 150);
   background(240);
 
@@ -194,7 +213,7 @@ public void setUpToggles(){
       .setSize( 20, 20 )
       .setColorForeground(color(180, 180, 180))
       .setColorBackground(color(180, 180, 180))
-      .setValue( false )
+      .setValue( true )
       .plugTo( this, filterToggles1[i]+"ON" )
       .getCaptionLabel()
       .hide();
@@ -208,7 +227,7 @@ public void setUpToggles(){
       .setSize( 20, 20 )
       .setColorForeground(color(180, 180, 180))
       .setColorBackground(color(180, 180, 180))
-      .setValue( false )
+      .setValue( true )
       .plugTo( this, filterToggles2[i]+"ON" )
       .getCaptionLabel()
       .hide();
@@ -221,7 +240,7 @@ public void setUpToggles(){
       .setSize( 20, 20 )
       .setColorForeground(color(180, 180, 180))
       .setColorBackground(color(180, 180, 180))
-      .setValue( false )
+      .setValue( true )
       .plugTo( this, filterToggles3[i]+"ON" )
       .getCaptionLabel()
       .hide();
@@ -349,10 +368,37 @@ private ArrayList<Patient> filteredPatients()
 
   for (Patient p : patients.values())
   {
+    String site = p.getSite();
+    
+    String vent = p.getVentMode();
     if (p.getWeight() < Float.parseFloat(minRangeLabel.get().getText()))
       filteredPatients.remove(p);
     else if (p.getWeight() > Float.parseFloat(maxRangeLabel.get().getText()))
       filteredPatients.remove(p);
+    else if (!aON && site.toLowerCase().equals("a"))
+      filteredPatients.remove(p);
+    else if (!bON && site.toLowerCase().equals("b"))
+      filteredPatients.remove(p);
+    else if (!cON && site.toLowerCase().equals("c"))
+      filteredPatients.remove(p);
+    else if (!dON && site.toLowerCase().equals("d"))
+      filteredPatients.remove(p);
+    else if (!eON && site.toLowerCase().equals("e"))
+      filteredPatients.remove(p);
+    else if (!fON && site.toLowerCase().equals("f"))
+      filteredPatients.remove(p);
+    else if (!gON && site.toLowerCase().equals("g"))
+      filteredPatients.remove(p);
+    else if (!pcON && vent.toLowerCase().equals("pressure control"))
+      filteredPatients.remove(p);
+    else if (!vcON && vent.toLowerCase().equals("volume control"))
+      filteredPatients.remove(p);
+    else if (!prvcON && vent.toLowerCase().equals("prvc"))
+      filteredPatients.remove(p);
+    else if (!hfovON && vent.toLowerCase().equals("hfov"))
+      filteredPatients.remove(p);
+    
+
   }
 
   return filteredPatients;
