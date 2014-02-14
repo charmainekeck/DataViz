@@ -1,11 +1,12 @@
 public class Reading
 {
   private long time;
-  private int ventilatorRate, pip, peep;
+  private int subject, ventilatorRate, pip, peep;
   private float pH, fiO2, weight;
   private String site, ventMode;
 
-  Reading(String site, int ventilatorRate, int pip, int peep, float pH, float fiO2, float weight, String ventMode, long time) {
+  Reading(int subject, String site, int ventilatorRate, int pip, int peep, float pH, float fiO2, float weight, String ventMode, long time) {
+    this.subject = subject;
     this.site = site;
     this.ventilatorRate = ventilatorRate;
     this.pip = pip;
@@ -48,6 +49,9 @@ public class Reading
 
   public String getSite() {
     return site;
+  }
+  public int getSubject(){
+    return subject;
   }
 
   public String getVentMode() {

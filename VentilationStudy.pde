@@ -51,13 +51,17 @@ void draw() {
   // Clear graph widget by painting over it
   noStroke();
   fill(240);
-  rect(wX-5,wY-5,wWidth+10,wHeight+20);
+  rect(wX-30,wY-30,wWidth+30,wHeight+30);
 
   updateWeightSlider();
   updateGraphsDrawn();
 
   for (VentilationRateGraph graph : graphsDrawn)
+  {
+    
     graph.display();
+    
+  }
 }
 
 void loadPatients() {
@@ -283,6 +287,7 @@ void  updateGraphsDrawn()
     float boxY = (float)(wY + wHeight * (int)(i/r) / r);
 
     graphsDrawn.add(new VentilationRateGraph(boxX, boxY, boxWidth, boxHeight, filteredPatients.get(i)));
+
   }
 }
 
@@ -432,6 +437,8 @@ class VentilationRateGraph {
     strokeWeight(1);
     fill(255);
     rect(x, y, wWidth, wHeight);
+    
+    
 
     long maxTime = patient.getMaxTime();
     if (maxTime <= 0)
@@ -458,6 +465,7 @@ class VentilationRateGraph {
       }
     }
 
+
     if (peepON)
       displayPEEP();
     if (fio2ON)
@@ -466,6 +474,33 @@ class VentilationRateGraph {
       displayPIP();
     if (phON)
       displayPh();
+    if (mouseX >= x && mouseY >= y && mouseX <= (x + wWidth) && mouseY <= (y+wHeight))
+    {
+      
+      fill(255);
+      stroke(1);
+      rect(mouseX - 20, mouseY- 50 , 90, 60);
+      String s = ("Site: " ) + patient.getSite();
+      String v = ("Vent Mode: ") + patient.getVentMode();
+      String p = ("Subject: ") + patient.getSubject();
+      String w = ("Weight: ") + patient.getWeight();
+
+      if(v.contains("Pressure Control"))
+      {
+        v = "Vent Mode: PC";
+      }
+      else if (v.contains("Volume Control"))
+      {
+        v = "Vent Mode: VC";
+      }
+
+      fill(0);
+      text(s, mouseX-10, mouseY-40);
+      text(v, mouseX -10, mouseY - 30);
+      text(p, mouseX -10, mouseY - 20);
+      text(w,mouseX -10, mouseY - 10);
+    }
+
   }
 
   private void displayPEEP() {

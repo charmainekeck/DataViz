@@ -3,6 +3,7 @@ import java.util.*;
 public class Patient
 {
   private static final String SITEHEADER = "Site";
+  private static final String SUBJECTHEADER = "SubjectID";
   private static final String VENTILATORRATEHEADER = "VentilatorRate";
   private static final String PIPHEADER = "PIP";
   private static final String PEEPHEADER = "PEEP";
@@ -15,7 +16,7 @@ public class Patient
 
   private int startHr, startMin, startSec;
 
-  private int siteID, ventilatorRateID, pipID, peepID, phID, fio2ID, weightID, ventModeID, ventDateID, ventTimeID;
+  private int siteID, subjectID, ventilatorRateID, pipID, peepID, phID, fio2ID, weightID, ventModeID, ventDateID, ventTimeID;
   private ArrayList<Reading> readings;
 
   Patient(String[] headers) {
@@ -23,7 +24,9 @@ public class Patient
 
     for (int id = 0; id < headers.length; id++) {
       String header = headers[id];
-      if (header.equals(SITEHEADER))
+      if(header.equals(SUBJECTHEADER))
+        subjectID = id;
+      else if (header.equals(SITEHEADER))
         siteID = id;
       else if (header.equals(VENTILATORRATEHEADER))
         ventilatorRateID = id;
@@ -62,6 +65,7 @@ public class Patient
 
     long time = getElapsedTime(ventDate, ventTime);
 
+    int subject = parseIntData(data[subjectID]);
     String site = data[siteID];
     String ventMode = data[ventModeID];
     int ventilatorRate = parseIntData(data[ventilatorRateID]);
@@ -71,7 +75,7 @@ public class Patient
     float fiO2 = parseFloatData(data[fio2ID]);
     float weight = parseFloatData(data[weightID]);
 
-    readings.add(new Reading(site, ventilatorRate, pip, peep, pH, fiO2, weight, ventMode, time));
+    readings.add(new Reading(subject, site, ventilatorRate, pip, peep, pH, fiO2, weight, ventMode, time));
   }
 
   public Reading[] getReadings()
@@ -115,6 +119,14 @@ public class Patient
       return readings.get(0).getSite();
     return null;
   }
+
+  public int getSubject()
+  {
+    if (readings.size() > 0)
+      return readings.get(0).getSubject();
+    return -1;
+  }
+
 
     public String getVentMode()
   {
